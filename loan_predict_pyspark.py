@@ -113,10 +113,16 @@ education_indexer= StringIndexer(inputCol="Education", outputCol="Education_Inde
 self_employed_indexer= StringIndexer(inputCol="Self_Employed", outputCol="Self_Employed_Indexed")
 property_area_indexer=StringIndexer(inputCol="Property_Area", outputCol="Property_Area_Indexed")
 loan_status_indexer=StringIndexer(inputCol="Loan_Status", outputCol="Loan_Status_Indexed")
+applicant_income_indexer = StringIndexer(inputCol="ApplicantIncomeDis", outputCol="ApplicantIncomeDis_Indexed")
+coapplicant_income_indexer = StringIndexer(inputCol="CoapplicantIncomeDis", outputCol="CoapplicantIncomeDis_Indexed")
+loan_amount_indexer = StringIndexer(inputCol="LoanAmountDis", outputCol="LoanAmountDis_Indexed")
+loan_term_indexer = StringIndexer(inputCol="LoanAmountTermDis", outputCol="LoanAmountTermDis_Indexed")
+
+
 
 # Step 8: Assemble Features
 assembler=VectorAssembler(
-    inputCols=["Dependents_Indexed","Education_Indexed","Self_Employed_Indexed","ApplicantIncome", "CoapplicantIncome","LoanAmount","Loan_Amount_Term","Credit_History","Property_Area_Indexed"],
+    inputCols=["Dependents_Indexed","Education_Indexed","Self_Employed_Indexed","ApplicantIncomeDis_Indexed", "CoapplicantIncomeDis_Indexed","LoanAmountDis_Indexed","LoanAmountTermDis_Indexed","Credit_History","Property_Area_Indexed"],
     outputCol="features"
 )
 
@@ -129,15 +135,20 @@ classifiers = {
 }
     
 # Step 10 Build ML Pipeline
+df=loan_status_indexer.fit(df).transform(df)
 results = []
 
 for name, c in classifiers.items():
     pipeline= Pipeline(stages=[
-        loan_status_indexer,
         dependents_indexer,
         education_indexer,
         self_employed_indexer,
         property_area_indexer,
+        # loan_status_indexer,
+        applicant_income_indexer,
+        coapplicant_income_indexer,
+        loan_amount_indexer,
+        loan_term_indexer,
         assembler,
         c
     ])
