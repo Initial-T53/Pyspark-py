@@ -16,10 +16,10 @@ from pyspark.ml import Pipeline
 
 # Define base directory
 
-base_dir=os.getcwd()
+base_dir = os.path.abspath(os.path.dirname(__file__))
 
 # Construct full input and output paths
-input_path = "https://raw.githubusercontent.com/learningtechnologieslab/mds_cloud_computing/refs/heads/main/apache_spark/loan_data.csv"
+input_path = f"file://{os.path.join(base_dir, 'loan_data.csv')}"
 output_path = os.path.join(base_dir, "output.txt")
 
 # Step 1: Initialize Spark session
