@@ -7,7 +7,7 @@
 import os
 from pyspark.sql import SparkSession
 from pyspark.ml.feature import StringIndexer, VectorAssembler
-from pyspark.sql.functions import when
+from pyspark.sql.functions import when, col
 from pyspark.ml.classification import RandomForestClassifier
 from pyspark.ml.classification import DecisionTreeClassifier
 from pyspark.ml.classification import NaiveBayes
@@ -72,14 +72,14 @@ df = df.drop("Loan_ID","Gender","Married")
 # High Income: Anything over 6000 is high income
 
 df = df.withColumn("ApplicantIncomeDis",
-    when(df["ApplicantIncome"] < 3000, "Low")
-    .when((df["ApplicantIncome"] >= 3000) & (df["ApplicantIncome"] <= 6000), "Middle")
+    when(col("ApplicantIncome") < 3000, "Low")
+    .when(col("ApplicantIncome") >= 3000) & (col("ApplicantIncome") <= 6000), "Middle")
     .otherwise("High")
 )
 
 df = df.withColumn("CoapplicantIncomeDis",
-    when(df["CoapplicantIncome"] < 3000, "Low")
-    .when((df["CoapplicantIncome"] >= 3000) & (df["CoapplicantIncome"] <= 6000), "Middle")
+    when(col("CoapplicantIncome") < 3000, "Low")
+    .when(col("CoapplicantIncome") >= 3000) & (col("CoapplicantIncome") <= 6000), "Middle")
     .otherwise("High")
 )
 
@@ -90,8 +90,8 @@ df = df.withColumn("CoapplicantIncomeDis",
 # Large Loan is anything greater than 200 (Higher financial need)
 
 df=df.withColumn("LoanAmountDis",
-    when(df["LoanAmount"] < 100, "Small")
-    .when((df["LoanAmount"] >= 100) & (df["LoanAmount"] <= 200), "Medium")
+    when(col("LoanAmount") < 100, "Small")
+    .when((col("LoanAmount") >= 100) & (col("LoanAmount") <= 200), "Medium")
     .otherwise("Large")
 )
 
@@ -101,8 +101,8 @@ df=df.withColumn("LoanAmountDis",
 # Long term is anything greater than 300 months
 
 df=df.withColumn("LoanAmountTermDis",
-    when(df["Loan_Amount_Term"] < 180, "Short")
-    .when((df["Loan_Amount_Term"] >= 180) & (df["Loan_Amount_Term"] <= 300), "Medium")
+    when(col("Loan_Amount_Term") < 180, "Short")
+    .when((col("Loan_Amount_Term") >= 180) & (col("Loan_Amount_Term") <= 300), "Medium")
     .otherwise("Long")
 )
 
