@@ -7,7 +7,7 @@
 import os
 from pyspark.sql import SparkSession
 from pyspark.ml.feature import StringIndexer, VectorAssembler
-from pyspark.ml.functions import when
+from pyspark.sql.functions import when
 from pyspark.ml.classification import RandomForestClassifier
 from pyspark.ml.classification import DecisionTreeClassifier
 from pyspark.ml.classification import NaiveBayes
