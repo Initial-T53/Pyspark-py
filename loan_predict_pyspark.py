@@ -72,14 +72,14 @@ df = df.drop("Loan_ID","Gender","Married")
 # High Income: Anything over 6000 is high income
 
 df = df.withColumn("ApplicantIncomeDis",
-    when(col("ApplicantIncome") < 3000, "Low")
-    .when(col("ApplicantIncome") >= 3000) & (col("ApplicantIncome") <= 6000), "Middle")
+    when((col("ApplicantIncome") >= 3000) & (col("ApplicantIncome") <= 6000), "Middle")
+    .when(col("ApplicantIncome") < 3000, "Low")
     .otherwise("High")
 )
 
 df = df.withColumn("CoapplicantIncomeDis",
-    when(col("CoapplicantIncome") < 3000, "Low")
-    .when(col("CoapplicantIncome") >= 3000) & (col("CoapplicantIncome") <= 6000), "Middle")
+    when((col("CoapplicantIncome") >= 3000) & (col("CoapplicantIncome") <= 6000), "Middle")
+    .when(col("CoapplicantIncome") < 3000, "Low")
     .otherwise("High")
 )
 
