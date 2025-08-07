@@ -26,7 +26,6 @@ output_path = os.path.join(base_dir, "output.txt")
 spark = SparkSession.builder.appName("LoanPredictML").getOrCreate()
 
 # Step 2: Load dataset
-input_path="https://raw.githubusercontent.com/learningtechnologieslab/mds_cloud_computing/refs/heads/main/apache_spark/loan_data.csv"
 df = spark.read.csv(input_path, header=True, inferSchema=True)
 
 # Step 3: Drop rows with missing values
